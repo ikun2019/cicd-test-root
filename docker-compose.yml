@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: api
+    build: ./api
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api:/workspace:cached
+    environment:
+      - DB_DATABASE=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  web:
+    container_name: web
+    build: ./web
+    ports:
+      - 3000:3000
+    volumes:
+      - ./web:/workspace:cached
+    depends_on:
+      - api
+
+  db:
+    container_name: todo-database
+    image: mysql:5.7
+    platform: linux/amd64
+    ports:
+      - 3306:3306
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - .env

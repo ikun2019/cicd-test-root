@@ -1,0 +1,6 @@
+[submodule "api"]
+  path = api
+  url = https://github.com/ikun2019/cicd-test-api.git
+[submodule "web"]
+  path = web
+  url = https://github.com/ikun2019/cide-test-web.git
