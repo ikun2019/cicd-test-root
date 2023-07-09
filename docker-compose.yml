@@ -24,6 +24,10 @@ services:
       - 3000:3000
     volumes:
       - ./web:/workspace:cached
+    environment:
+      - API_URL=${API_URL}
+    env_file:
+      - .env
     depends_on:
       - api
 
